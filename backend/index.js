@@ -2,7 +2,7 @@ const express = require('express')
 const prompt = require('prompt-sync')();
 const {MongoClient, AutoEncryptionLoggerLevel} = require('mongodb');
 const mongoose = require('mongoose');
-
+console.log('hi')
 var app = express()
 var server = app.listen(3000)
 
