@@ -1,12 +1,11 @@
 const express = require('express')
-const prompt = require('prompt-sync')();
 const {MongoClient, AutoEncryptionLoggerLevel} = require('mongodb');
 const mongoose = require('mongoose');
 
 var app = express()
 var server = app.listen(3000)
 
-app.use(express.static('./public'))
+app.use(express.static('./frontend'))
 
 console.log('running')
 

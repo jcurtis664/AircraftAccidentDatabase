@@ -2,16 +2,18 @@
 
 <head>
     <title>ERAU AIDB LHUFT Database</title>
-    <link rel="stylesheet" href="style.css"></link>
+    <link rel="stylesheet" href="style.css">
+    </link>
 </head>
 
 <body>
     <h2>ERAU AIDB LHUFT Database</h2>
-    
+
     <div class="tab">
         <button id="home button" class="tablinks" onclick="openTab(event, 'Home')">Home</button>
         <button class="tablinks" onclick="openTab(event, 'About')">About</button>
         <button class="tablinks" onclick="openTab(event, 'LHUFT AIDB Committee')">LHUFT AIDB Committee</button>
+        <button class="tablinks" onclick="openTab(event, 'New Accident')">New Accident</button>
     </div>
 
     <div id="Home" class="tabcontent">
@@ -54,9 +56,80 @@
             <br>• The committee begins to systematically review the others
 
     </div>
-    <a href="/search.html">Search the Database</a><br>
-    <a href="/AI.html">Accident Incident Template</a>
+
+    <div id="New Accident" class="tabcontent">
+        <p>Insert Date:
+            <input type="date">
+        </p>
+
+        <br>
+
+        <p>Location:
+            <input type="location">
+        </p>
+
+        <br>
+
+        <p>Aircraft Type:
+            <input type="aircraft">
+        </p>
+
+        <br>
+
+        <p>Airline:
+            <input type="airline">
+        </p>
+
+        <br>
+
+        <p>Fatalities:
+            <input type="number">
+        </p>
+
+        <br>
+
+        <p>Synopsis:
+            <input type="text">
+        </p>
+
+        <br>
+
+        <p>ICAO Categories:
+            <input type="text">
+        </p>
+
+        <br>
+
+        <p id="Language References">Language References:<br>
+            <input type="text" placeholder="Page Number"><input type="text" placeholder="Reference"><br>
+        </p>
+        <button onclick="addRef()">Add Another Reference</button><button onclick="removeRef()">Remove Last Reference</button>
+
+        <br><br><br>
+
+        <p>Aircraft Incident Report File:
+            <input type="file">
+        </p>
+
+        <br>
+
+        <p>Avation Saftey Network Link:
+            <input type="url">
+        </p>
+
+        <br>
+
+        <p>Additional Tags:
+            <input type="tags">
+        </p>
+
+        <br>
+
+        <button>Submit</button>
+    </div>
+
     <script src="/tabs.js"></script>
+    <script src="/reference.js"></script>
 </body>
 
 </html>
