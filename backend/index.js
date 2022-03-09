@@ -1,13 +1,16 @@
-const express = require('express')
+const express = require('express');
 const {MongoClient, AutoEncryptionLoggerLevel} = require('mongodb');
 const mongoose = require('mongoose');
 
-var app = express()
-var server = app.listen(3000)
+var app = express();
+var server = app.listen(3000);
 
-app.use(express.static('./frontend'))
+app.use(express.static('./AircraftAccidentDatabase/frontend'));
+app.use(express.urlencoded({extended: false}))
+app.use(express.json())
+console.log('running');
 
-console.log('running')
+var accident_model = null;
 
 const accident_schema = new mongoose.Schema({
     tags: [String],
@@ -27,42 +30,19 @@ const accident_schema = new mongoose.Schema({
     languange_references: [{page_number: String, reference: String}]
 })
 
-async function main()
+async function connectToDatabase()
 {
     const uri = "mongodb+srv://admin:admin@aircraft-accidents.gmv7k.mongodb.net/aircraft_accidents_db?retryWrites=true&w=majority";
-
     const client = new MongoClient(uri);
 
     try 
     {
         await client.connect();
+        await mongoose.connect(uri);
 
-        await mongoose.connect(uri)
+        accident_model = mongoose.model("Accident", accident_schema, "aircraft_accidents");
 
         await listDatabases(client);
-
-        //await addNewAccident(client, createNewAccident());
-
-        const test = mongoose.model("test", accident_schema, "aircraft_accidents");
-
-        const accident_test = new test({
-            tags: ["2012", "pie", "dog"],
-            date: {year: "2012", month: "april", day: "28"},
-            location: "here",
-            aircraft: "grown man goose",
-            airline: "illegal",
-            fatalities: "36",
-            ICAO_categories: ["Anex 10"],
-            AI_link: "insert link here",
-            AVSN_link: "insert like here",
-            synopsis: "x = y",
-            languange_references: [{page_number: "103", reference: "germanic"}]
-        })
-
-        accident_test.save(function (err, book) {
-            if (err) return console.error(err);
-            console.log(book.name + " saved.");
-          });
     }
     catch (e)
     {
@@ -83,4 +63,9 @@ async function listDatabases(client)
     databaseList.databases.forEach(db => console.log(` - ${db.name}`));
 }
 
-main().catch(console.error);
+connectToDatabase().catch(console.error);
+
+app.post('/makeAccident', function(req, res){
+    console.log(req.body);
+    res.end();
+})

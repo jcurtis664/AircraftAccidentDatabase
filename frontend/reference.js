@@ -1,9 +1,11 @@
 function addRef(){
     let pn = document.createElement('input');
+    pn.classList.add('pageNum');
     pn.placeholder = "Page Number";
     pn.type = "text";
 
     let ref = document.createElement('input');
+    ref.classList.add('reference')
     ref.placeholder = "Reference";
     ref.type = "text";
 

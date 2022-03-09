@@ -4,6 +4,7 @@
     <title>ERAU AIDB LHUFT Database</title>
     <link rel="stylesheet" href="style.css">
     </link>
+    <script src="./submitButton.js"></script>
 </head>
 
 <body>
@@ -59,73 +60,71 @@
 
     <div id="New Accident" class="tabcontent">
         <p>Insert Date:
-            <input type="date">
+            <input type="date" id="date">
         </p>
 
         <br>
 
         <p>Location:
-            <input type="location">
+            <input type="location" id="location">
         </p>
 
         <br>
 
         <p>Aircraft Type:
-            <input type="aircraft">
+            <input type="aircraft" id="aircraft">
         </p>
 
         <br>
 
         <p>Airline:
-            <input type="airline">
+            <input type="airline" id="airline">
         </p>
 
         <br>
 
         <p>Fatalities:
-            <input type="number">
+            <input type="number", id="fatalities">
         </p>
 
         <br>
 
         <p>Synopsis:
-            <input type="text">
+            <input type="text", id="synopsis">
         </p>
 
         <br>
 
         <p>ICAO Categories:
-            <input type="text">
+            <input type="text", id="icao">
         </p>
 
         <br>
 
         <p id="Language References">Language References:<br>
-            <input type="text" placeholder="Page Number"><input type="text" placeholder="Reference"><br>
+            <input type="text" placeholder="Page Number" class="pageNum"><input type="text" placeholder="Reference" class="reference"><br>
         </p>
         <button onclick="addRef()">Add Another Reference</button><button onclick="removeRef()">Remove Last Reference</button>
 
         <br><br><br>
 
         <p>Aircraft Incident Report File:
-            <input type="file">
+            <input type="file", id="report">
         </p>
 
         <br>
 
         <p>Avation Saftey Network Link:
-            <input type="url">
+            <input type="url", id="avsn_link">
         </p>
 
         <br>
 
         <p>Additional Tags:
-            <input type="tags">
+            <input type="tags", id="tags">
         </p>
 
-        <br>
-
-        <button>Submit</button>
+        <button onclick="submitAccident();">Submit</button>
     </div>
 
     <script src="/tabs.js"></script>
