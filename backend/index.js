@@ -1,13 +1,9 @@
-const express = require('express');
 const {MongoClient, AutoEncryptionLoggerLevel} = require('mongodb');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const http = require('http');
+const fs = require('fs');
 
-var app = express();
-var server = app.listen(3000);
-
-app.use(express.static('./AircraftAccidentDatabase/frontend'));
-app.use(express.urlencoded({extended: false}))
-app.use(express.json())
 console.log('running');
 
 var accident_model = null;
@@ -65,7 +61,62 @@ async function listDatabases(client)
 
 connectToDatabase().catch(console.error);
 
-app.post('/makeAccident', function(req, res){
-    console.log(req.body);
+let server = http.createServer(async (req, res) => {
+    console.log(req.url);
+    if (req.url == '/') {
+        res.write(fs.readFileSync('./frontend/index.html'));
+    }
+    else if (req.url == '/style.css'){
+        res.write(fs.readFileSync('./frontend/style.css'));
+    }
+    else if (req.url == '/tabs.js'){
+        res.write(fs.readFileSync('./frontend/tabs.js'));
+    }
+    else if (req.url == '/reference.js'){
+        res.write(fs.readFileSync('./frontend/reference.js'));
+    }
+    else if (req.url == '/submitButton.js'){
+        res.write(fs.readFileSync('./frontend/submitButton.js'));
+    }
+    
+    else if (req.url == '/makeAccident') {
+        const buffers = [];
+
+        for await (const chunk of req) {
+          buffers.push(chunk);
+        }
+      
+        let buffer = Buffer.concat(buffers).toString()
+        const data = await JSON.parse(buffer);
+
+        let model = data.ans;
+        let file = new Int8Array(Object.values(data.file));
+    
+        let link = './accidentReports/'+model.accident_location+'-'+model.accident_date.year+'-'+model.accident_date.month+'-'+model.accident_date.day+'.pdf';
+        fs.writeFileSync(link, file)
+
+        const new_accident = new accident_model({
+            tags: model.accident_tags,
+            date: model.accident_date,
+            location: model.accident_location,
+            aircraft: model.accident_aircraft,
+            airline: model.accident_airline,
+            fatalities: model.accident_fatalities,
+            ICAO_categories: model.accident_icao_categories,
+            AI_link: link,
+            AVSN_link: model.accident_avsn_link,
+            synopsis: model.accident_synopsis,
+            languange_references: model.references
+        });
+    
+        //console.log(new_accident);
+    
+        //new_accident.save(function (err, accident) {
+        //    if (err) return console.error(err);
+        //    console.log(accident.name + " saved.");
+        //  });
+    }
     res.end();
-})
+});
+
+server.listen(3000);

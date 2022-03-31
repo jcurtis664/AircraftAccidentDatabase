@@ -1,11 +1,11 @@
-function submitAccident() {
+async function submitAccident() {
     let ans = {};
-    ans.date_input = new Date(document.getElementById('date').value);
+    let date_input = new Date(document.getElementById('date').value);
 
     ans.accident_date = {
-        year: ans.date_input.getFullYear(),
-        month: ans.date_input.getMonth() + 1,
-        day: ans.date_input.getDay()
+        year: date_input.getFullYear(),
+        month: date_input.getMonth() + 1,
+        day: date_input.getDay()
     }
 
     ans.accident_location = document.getElementById('location').value;
@@ -28,23 +28,20 @@ function submitAccident() {
     let pns = document.getElementsByClassName('pageNum');
     let refs = document.getElementsByClassName('reference');
 
-    console.log(pns)
-
-    for(let index = 0; index < pns.length; index++){
-        let pair = [];
-        console.log(pns[index].value)
-        pair[0] = pns[index].value;
-        pair[1] = refs[index].value;
-
-        ans.references.push(pair);
+    for (let index = 0; index < pns.length; index++) {
+        ans.references.push({ page_number: pns[index].value, reference: refs[index].value });
     }
 
     let url = window.location.href + 'makeAccident';
-    fetch(url, {
+    let file = new Int8Array(await document.getElementById('report').files[0].arrayBuffer());
+
+    console.log(file);
+
+    let res = await fetch(url, {
         method: 'post',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(ans)
+        body: JSON.stringify({ ans, file })
     });
 }
