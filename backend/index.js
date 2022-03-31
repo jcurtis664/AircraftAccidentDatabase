@@ -1,6 +1,5 @@
 const {MongoClient, AutoEncryptionLoggerLevel} = require('mongodb');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const http = require('http');
 const fs = require('fs');
 

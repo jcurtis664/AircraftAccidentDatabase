@@ -2,6 +2,8 @@ async function submitAccident() {
     let ans = {};
     let date_input = new Date(document.getElementById('date').value);
 
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
     ans.accident_date = {
         year: date_input.getFullYear(),
         month: date_input.getMonth() + 1,
@@ -22,6 +24,13 @@ async function submitAccident() {
     ans.accident_tags = document.getElementById('tags').value.split(",").map(function (item) {
         return item.trim();
     });
+
+    ans.accident_tags.push(months[parseInt(ans.accident_date.month) - 1]);
+    ans.accident_tags.push(ans.accident_date.year);
+    ans.accident_tags.push(ans.accident_location);
+    ans.accident_tags.push(ans.accident_aircraft);
+    ans.accident_tags.push(ans.accident_airline);
+    ans.accident_tags = ans.accident_tags.concat(ans.accident_icao_categories);
 
     ans.references = [];
 
