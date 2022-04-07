@@ -4,10 +4,13 @@
     <title>ERAU AIDB LHUFT Database</title>
     <link rel="stylesheet" href="style.css">
     </link>
-    <script src="./submitButton.js"></script>
 </head>
 
 <body>
+
+    <div id="mtoast" onclick="this.style.display='none'"></div>
+    <script src="./submitButton.js"></script>
+
     <h2>ERAU AIDB LHUFT Database</h2>
 
     <div class="tab">
@@ -19,7 +22,13 @@
 
     <div id="Home" class="tabcontent">
         <p>The Language as a Human Factor Accident Investigation Database compiles information related to the role of
-            language in accident and serious incident investigations.</p>
+            language in accident and serious incident investigations.
+        </p>
+
+        <input type="search">
+        <p> <br></p>
+        <div id="list"></div>
+        <script src="defaultList.js"></script>
     </div>
 
     <div id="About" class="tabcontent">
@@ -84,44 +93,46 @@
         <br>
 
         <p>Fatalities:
-            <input type="number", id="fatalities">
+            <input type="number" , id="fatalities">
         </p>
 
         <br>
 
         <p>Synopsis:
-            <input type="text", id="synopsis">
+            <input type="text" , id="synopsis">
         </p>
 
         <br>
 
         <p>ICAO Categories:
-            <input type="text", id="icao">
+            <input type="text" , id="icao">
         </p>
 
         <br>
 
         <p id="Language References">Language References:<br>
-            <input type="text" placeholder="Page Number" class="pageNum"><input type="text" placeholder="Reference" class="reference"><br>
+            <input type="text" placeholder="Page Number" class="pageNum"><input type="text" placeholder="Reference"
+                class="reference"><br>
         </p>
-        <button onclick="addRef()">Add Another Reference</button><button onclick="removeRef()">Remove Last Reference</button>
+        <button onclick="addRef()">Add Another Reference</button><button onclick="removeRef()">Remove Last
+            Reference</button>
 
         <br><br><br>
 
         <p>Aircraft Incident Report File:
-            <input type="file", id="report">
+            <input type="file" , id="report">
         </p>
 
         <br>
 
         <p>Avation Saftey Network Link:
-            <input type="url", id="avsn_link">
+            <input type="url" , id="avsn_link">
         </p>
 
         <br>
 
         <p>Additional Tags:
-            <input type="tags", id="tags">
+            <input type="tags" , id="tags">
         </p>
 
         <button onclick="submitAccident();">Submit</button>
