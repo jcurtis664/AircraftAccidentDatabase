@@ -96,23 +96,22 @@ let server = http.createServer(async (req, res) => {
     }
 
     else if (req.url == '/makeAccident') {
-        try
-        {
+        try {
             const buffers = [];
 
             for await (const chunk of req) {
-              buffers.push(chunk);
+                buffers.push(chunk);
             }
-          
+
             let buffer = Buffer.concat(buffers).toString()
             const data = await JSON.parse(buffer);
-    
+
             let model = data.ans;
             let file = new Int8Array(Object.values(data.file));
-        
-            let link = './accidentReports/'+model.accident_location+'-'+model.accident_date.year+'-'+model.accident_date.month+'-'+model.accident_date.day+'.pdf';
+
+            let link = './accidentReports/' + model.accident_location + '-' + model.accident_date.year + '-' + model.accident_date.month + '-' + model.accident_date.day + '.pdf';
             fs.writeFileSync(link, file)
-    
+
             const new_accident = new accident_model({
                 tags: model.accident_tags,
                 date: model.accident_date,
@@ -126,25 +125,40 @@ let server = http.createServer(async (req, res) => {
                 synopsis: model.accident_synopsis,
                 languange_references: model.references
             });
-        
+
             console.log(new_accident);
-        
+
             new_accident.save(function (err, accident) {
-                if (err) 
-                {
+                if (err) {
                     return console.error(err);
                 }
                 console.log(accident._id + " saved.");
-                res.write(JSON.stringify({msg: "success"}));
+                res.write(JSON.stringify({ msg: "success" }));
                 res.end();
             });
         }
-        catch (err)
-        {
+        catch (err) {
             res.write("failed");
             res.end();
         }
     }
+
+    else if (req.url == '/fillOutTemplate.js') {
+        res.write(fs.readFileSync('./frontend/fillOutTemplate.js'));
+    }
+
+    else if (req.url.slice(0, 8) == '/report_') {
+        res.write(fs.readFileSync('./frontend/template.html'));
+    }
+
+    else if (req.url.slice(0, 10) == '/accident_') {
+        let id = req.url.slice(10, req.url.length);
+        let data = await accident_model.findById(id).exec();
+
+        res.write(JSON.stringify(data));
+    }
+
+    //end the response if the url is not make accident
     if (req.url != '/makeAccident') {
         res.end();
     }

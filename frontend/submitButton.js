@@ -24,7 +24,7 @@ async function submitAccident() {
         ans.accident_date = {
             year: date_input.getFullYear(),
             month: date_input.getMonth() + 1,
-            day: date_input.getDay()
+            day: date_input.getDate()
         }
 
         ans.accident_location = document.getElementById('location').value;
