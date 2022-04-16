@@ -84,7 +84,7 @@ let server = http.createServer(async (req, res) => {
         accident.sort((ele1, ele2) => {
             let date1 = Date.parse(ele1.date.year + ' ' + ele1.date.month + ' ' + ele1.date.day);
             let date2 = Date.parse(ele2.date.year + ' ' + ele2.date.month + ' ' + ele2.date.day);
-            return date1 > date2
+            return date2 - date1
         });
 
         let top20 = [];
