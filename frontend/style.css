@@ -1,0 +1,113 @@
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+.input,
+.textarea {
+  border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 1px 6px;
+}
+
+.textarea {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  resize: both;
+  min-height: 40px;
+  line-height: 20px;
+}
+
+.textarea[contenteditable]:empty::before {
+  content: "Placeholder still possible";
+  color: gray;
+}
+
+#list {
+  border: 2px solid black;
+  border-style: solid;
+  border-radius: 5px;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+tr.link:hover {
+  cursor: pointer;
+  background-color: gold;
+}
+
+#mtoast {
+  /* (A) POSITION */
+  position: fixed;
+  z-index: 99;
+  top: 20%;
+  right: 0px;
+
+  /* TEXT */
+  text-align: center;
+  font-family: "Impact", fantasy;
+  font-size: 30px;
+  color: #ffffff;
+
+  /* (B) DIMENSION */
+  width: 200px;
+  padding: 10px;
+
+  /* (C) COLORS */
+  border-style: solid;
+  border-radius: 1px;
+  border-color: rgb(0, 0, 0);
+  background: #18e85d;
+  /*border: 1px solid #000;*/
+
+  /* (D) HIDDEN BY DEFAULT */
+  display: none;
+}
