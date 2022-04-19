@@ -10,6 +10,7 @@
 
     <div id="mtoast" onclick="this.style.display='none'"></div>
     <script src="./submitButton.js"></script>
+    <script src="./searchButton.js"></script>
 
     <h2>ERAU AIDB LHUFT Database</h2>
 
@@ -25,7 +26,8 @@
             language in accident and serious incident investigations.
         </p>
 
-        <input type="search">
+        <input type="search" id="search">
+        <button onclick="searchAccidents();">Search</button>
         <p> <br></p>
         <div id="list"></div>
         <script src="defaultList.js"></script>
