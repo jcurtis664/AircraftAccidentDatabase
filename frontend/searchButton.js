@@ -1,18 +1,26 @@
-let list = document.getElementById('list');
+async function searchAccidents()
+{
+    let search = document.getElementById('search').value.split(" ").map(function (item) {
+        return item.trim();
+    });
 
-(async () => {
-    let table = document.createElement('table');
-    table.id = 'table'
+    //if (search.length == 1 && search[0] == '') return;
+    
+    let table = document.getElementById('table');
+
+    table.innerHTML = '';
+
     list.append(table);
     makeHeader(table);
 
-    let url = window.location.href + 'top20';
+    let url = window.location.href + 'searchResults';
 
     let res = await fetch(url, {
-        method: 'get',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify(search)
     });
 
     let data = await res.json();
@@ -40,8 +48,8 @@ let list = document.getElementById('list');
 
             table.append(tr);
         }
-    })
-})();
+    });
+}
 
 function makeHeader (table){
     let row = document.createElement('tr');

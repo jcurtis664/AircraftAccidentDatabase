@@ -1,4 +1,4 @@
-const { MongoClient, AutoEncryptionLoggerLevel } = require('mongodb');
+const {MongoClient, AutoEncryptionLoggerLevel} = require('mongodb');
 const mongoose = require('mongoose');
 const http = require('http');
 const fs = require('fs');
@@ -22,31 +22,46 @@ const accident_schema = new mongoose.Schema({
     AI_link: String,
     AVSN_link: String,
     synopsis: String,
-    languange_references: [{ page_number: String, reference: String }]
+    languange_references: [{page_number: String, reference: String}]
 })
 
-async function connectToDatabase() {
+async function connectToDatabase()
+{
     const uri = "mongodb+srv://admin:admin@aircraft-accidents.gmv7k.mongodb.net/aircraft_accidents_db?retryWrites=true&w=majority";
     const client = new MongoClient(uri);
 
-    try {
+    try 
+    {
         await client.connect();
         await mongoose.connect(uri);
 
         accident_model = mongoose.model("Accident", accident_schema, "aircraft_accidents");
 
         await listDatabases(client);
+
+        let accidents = await accident_model.find({});
+        
+        accidents.sort((ele1, ele2) => {
+            let date1 = Date.parse(ele1.date.year + ' ' + ele1.date.month + ' ' + ele1.date.day);
+            let date2 = Date.parse(ele2.date.year + ' ' + ele2.date.month + ' ' + ele2.date.day);
+            return date1 > date2
+        });
+
+        console.log(accidents);
     }
-    catch (e) {
+    catch (e)
+    {
         console.error(e);
     }
 
-    finally {
+    finally
+    {
         await client.close();
     }
 }
 
-async function listDatabases(client) {
+async function listDatabases(client)
+{
     databaseList = await client.db().admin().listDatabases();
 
     console.log("databases: ");
@@ -72,6 +87,9 @@ let server = http.createServer(async (req, res) => {
     else if (req.url == '/submitButton.js') {
         res.write(fs.readFileSync('./frontend/submitButton.js'));
     }
+    else if (req.url == '/searchButton.js') {
+        res.write(fs.readFileSync('./frontend/searchButton.js'));
+    }
     else if (req.url == '/template.html') {
         res.write(fs.readFileSync('./frontend/template.html'));
     }
@@ -94,7 +112,39 @@ let server = http.createServer(async (req, res) => {
 
         res.write(JSON.stringify(top20));
     }
+    else if (req.url == '/searchResults') {
+        const buffers = [];
+        let accidents;
 
+        for await (const chunk of req) {
+            buffers.push(chunk);
+        }
+
+        let buffer = Buffer.concat(buffers).toString()
+        const data = await JSON.parse(buffer);
+
+        if (data.length == 1 && data[0] == '')
+        {
+            accidents = await accident_model.find({});
+        }
+        else
+        {
+            accidents = await accident_model.find({tags: {$in: data}});
+        }
+
+        accidents.sort((ele1, ele2) => {
+            let date1 = Date.parse(ele1.date.year + ' ' + ele1.date.month + ' ' + ele1.date.day);
+            let date2 = Date.parse(ele2.date.year + ' ' + ele2.date.month + ' ' + ele2.date.day);
+            return date2 - date1
+        });
+
+        /*let top20 = [];
+        for (let i = 0; i < 20; i++) {
+            top20.push(accidents[i]);
+        }*/
+
+        res.write(JSON.stringify(accidents));
+    }
     else if (req.url == '/makeAccident') {
         try {
             const buffers = [];
