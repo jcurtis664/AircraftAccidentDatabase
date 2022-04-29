@@ -1,12 +1,15 @@
-async function searchAccidents()
-{
+async function searchAccidents() {
+    let list = document.getElementById('list');
+    list.innerHTML = "";
+    let table = document.createElement('table');
+    table.id = 'table'
+    list.append(table);
+
     let search = document.getElementById('search').value.split(" ").map(function (item) {
         return item.trim();
     });
 
     //if (search.length == 1 && search[0] == '') return;
-    
-    let table = document.getElementById('table');
 
     table.innerHTML = '';
 
@@ -34,8 +37,24 @@ async function searchAccidents()
             let tr = document.createElement('tr');
             let date = document.createElement('td');
             date.innerHTML = ele.date.month + '/' + ele.date.day + '/' + ele.date.year + ' ';
+
             let location = document.createElement('td');
             location.innerHTML = cap(ele.location);
+
+            let aircraft = document.createElement('td');
+            aircraft.innerHTML = cap(ele.aircraft);
+
+            let airline = document.createElement('td');
+            airline.innerHTML = cap(ele.airline);
+
+            let fatalities = document.createElement('td');
+            fatalities.innerHTML = ele.fatalities;
+
+            tr.append(date);
+            tr.append(location);
+            tr.append(aircraft);
+            tr.append(airline);
+            tr.append(fatalities);
 
             tr.append(date);
             tr.append(location);
@@ -52,6 +71,8 @@ async function searchAccidents()
 }
 
 function makeHeader (table){
+    //tr : table row
+    //th : table header
     let row = document.createElement('tr');
     table.append(row);
     
@@ -61,6 +82,18 @@ function makeHeader (table){
     let location = document.createElement('th');
     location.innerHTML = 'Location';
 
+    let aircraft = document.createElement('th');
+    aircraft.innerHTML = 'Aircraft';
+
+    let airline = document.createElement('th');
+    airline.innerHTML = 'Airline';
+
+    let fatalities = document.createElement('th');
+    fatalities.innerHTML = 'Fatalities';
+
     row.append(date);
     row.append(location);
+    row.append(aircraft);
+    row.append(airline);
+    row.append(fatalities);
 }

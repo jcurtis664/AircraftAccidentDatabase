@@ -26,11 +26,22 @@
             language in accident and serious incident investigations.
         </p>
 
+
         <input type="search" id="search">
-        <button onclick="searchAccidents();">Search</button>
+        <button onclick="searchAccidents();" id="search_btn">Search</button>
+        <script>
+            var input = document.getElementById('search');
+
+            input.addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    document.getElementById("search_btn").click();
+                }
+            });
+        </script>
         <p> <br></p>
         <div id="list"></div>
-        <script src="defaultList.js"></script>
+        <script>searchAccidents();</script>
     </div>
 
     <div id="About" class="tabcontent">
