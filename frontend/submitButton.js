@@ -35,18 +35,17 @@ async function submitAccident() {
         ans.accident_avsn_link = document.getElementById('avsn_link').value;
 
         ans.accident_icao_categories = document.getElementById('icao').value.split(",").map(function (item) {
-            return item.trim();
+            return item.trim().toLowerCase();
         });
 
         ans.accident_tags = document.getElementById('tags').value.split(",").map(function (item) {
-            return item.trim();
+            return item.trim().toLowerCase();
         });
-        ans.accident_tags.push(months[parseInt(ans.accident_date.month) - 1]);
+        ans.accident_tags.push(months[parseInt(ans.accident_date.month) - 1].toLowerCase());
         ans.accident_tags.push(ans.accident_date.year);
-        ans.accident_tags.push(ans.accident_location);
-        ans.accident_tags.push(ans.accident_aircraft);
-        ans.accident_tags.push(ans.accident_airline);
-        ans.accident_tags = ans.accident_tags.concat(ans.accident_icao_categories);
+        ans.accident_tags.push(ans.accident_location.toLowerCase());
+        ans.accident_tags.push(ans.accident_aircraft.toLowerCase());
+        ans.accident_tags.push(ans.accident_airline.toLowerCase());
 
         ans.references = [];
 
