@@ -6,7 +6,7 @@ async function searchAccidents() {
     list.append(table);
 
     let search = document.getElementById('search').value.split(" ").map(function (item) {
-        return item.trim();
+        return item.trim().toLowerCase();
     });
 
     //if (search.length == 1 && search[0] == '') return;
